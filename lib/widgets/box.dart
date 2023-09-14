@@ -20,7 +20,8 @@ class _BoxState extends State<Box> {
     return Container(
       width: 118,
       height: 118,
-      decoration: BoxDecoration(color: Colors.white),
+      decoration: BoxDecoration(
+          color: Colors.black, borderRadius: BorderRadius.circular(20)),
       child: Center(
         child: Text(
           widget.value,

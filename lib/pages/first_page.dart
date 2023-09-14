@@ -75,9 +75,9 @@ class _FirstPageState extends State<FirstPage> {
             hisoka[2].value == hisoka[6].value &&
             hisoka[2].value == "X")) {
       setState(() {
+        _showAlertDialog(context, 'X');
         print("X is win");
         reset();
-
         xWin++;
         xTurn = true;
       });
@@ -110,7 +110,7 @@ class _FirstPageState extends State<FirstPage> {
             hisoka[2].value == hisoka[6].value &&
             hisoka[2].value == "O")) {
       setState(() {
-        print("O is win");
+        _showAlertDialog(context, 'O');
         reset();
         oWin++;
         xTurn = false;
@@ -128,384 +128,465 @@ class _FirstPageState extends State<FirstPage> {
         hisoka[6].value != '' &&
         hisoka[7].value != '' &&
         hisoka[8].value != '') {
-      print("it is Draw ");
+      _showAlertDialogDraw(context);
       reset();
       draw++;
     }
+  }
+
+  void _showAlertDialog(BuildContext context, String a) {
+    showDialog(
+      barrierColor: const Color.fromARGB(177, 0, 0, 0),
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: (a == 'X') ? blo : aqua,
+          title: const Text(
+            'We have a winner',
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          ),
+          content: Text('$a Win ....',
+              style: const TextStyle(
+                  fontSize: 22, decoration: TextDecoration.underline)),
+          actions: <Widget>[
+            TextButton(
+              child: const Center(
+                child: Text(
+                  'OK',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showAlertDialogDraw(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Center(
+            child: Text('Draw'),
+          ),
+          content: Text('Great gime'),
+          actions: <Widget>[
+            TextButton(
+              child: const Center(
+                child: Text(
+                  'OK',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
 //********************************************************* */
   int i = 0;
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: double.infinity,
-              height: 160,
-              decoration: BoxDecoration(color: Colors.transparent),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    width: 120,
-                    height: 120,
-                    decoration: BoxDecoration(color: Colors.white),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.circle_outlined,
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Container(
+            width: double.infinity,
+            height: 160,
+            decoration: const BoxDecoration(color: Colors.transparent),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  width: 120,
+                  height: 120,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadiusDirectional.all(
+                      Radius.circular(20),
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.circle_outlined,
+                        color: aqua,
+                        size: 50,
+                      ),
+                      Text(
+                        "${oWin} wins",
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
                           color: aqua,
-                          size: 50,
                         ),
-                        Text(
-                          "${oWin} wins",
-                          style: TextStyle(
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  width: 120,
+                  height: 120,
+                  decoration: const BoxDecoration(
+                    color: Colors.greenAccent,
+                    borderRadius: BorderRadiusDirectional.all(
+                      Radius.circular(20),
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.balance_rounded,
+                        color: Colors.black,
+                        size: 50,
+                      ),
+                      Text(
+                        "${draw} draws",
+                        style: const TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
-                            color: aqua,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                    width: 120,
-                    height: 120,
-                    decoration: BoxDecoration(color: Colors.white),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.close_rounded,
-                          color: blo,
-                          size: 50,
-                        ),
-                        Text(
-                          "${xWin} wins",
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: blo),
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                    width: 120,
-                    height: 120,
-                    decoration: BoxDecoration(color: Colors.white),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.balance_rounded,
-                          color: Colors.black,
-                          size: 50,
-                        ),
-                        Text(
-                          "${draw} draws",
-                          style: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            //===========================================================
-            //===========================================================
-            const SizedBox(
-              height: 30,
-            ),
-            //²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²
-            Container(
-              width: 360,
-              height: 360,
-              decoration: const BoxDecoration(color: Colors.black),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          setState(
-                            () {
-                              play(0);
-                              xIsWin();
-                              oIsWin();
-                              DrawResult();
-                            },
-                          );
-                        },
-                        child: Box(
-                          value: hisoka[0].value,
-                          color: hisoka[0].color,
-                          size: hisoka[0].size,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(
-                            () {
-                              play(1);
-                              xIsWin();
-                              oIsWin();
-                              DrawResult();
-                            },
-                          );
-                        },
-                        child: Box(
-                          value: hisoka[1].value,
-                          color: hisoka[1].color,
-                          size: hisoka[1].size,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(
-                            () {
-                              play(2);
-                              xIsWin();
-                              oIsWin();
-                              DrawResult();
-                            },
-                          );
-                        },
-                        child: Box(
-                          value: hisoka[2].value,
-                          color: hisoka[2].color,
-                          size: hisoka[2].size,
-                        ),
-                      ),
+                            color: Colors.black),
+                      )
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                ),
+                Container(
+                  width: 120,
+                  height: 120,
+                  decoration: const BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadiusDirectional.all(
+                      Radius.circular(20),
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          setState(
-                            () {
-                              play(3);
-                              xIsWin();
-                              oIsWin();
-                              DrawResult();
-                            },
-                          );
-                        },
-                        child: Box(
-                          value: hisoka[3].value,
-                          color: hisoka[3].color,
-                          size: hisoka[3].size,
-                        ),
+                      Icon(
+                        Icons.close_rounded,
+                        color: blo,
+                        size: 50,
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(
-                            () {
-                              play(4);
-                              xIsWin();
-                              oIsWin();
-                              DrawResult();
-                            },
-                          );
-                        },
-                        child: Box(
-                          value: hisoka[4].value,
-                          color: hisoka[4].color,
-                          size: hisoka[4].size,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(
-                            () {
-                              play(5);
-                              xIsWin();
-                              oIsWin();
-                              DrawResult();
-                            },
-                          );
-                        },
-                        child: Box(
-                          value: hisoka[5].value,
-                          color: hisoka[5].color,
-                          size: hisoka[5].size,
-                        ),
-                      ),
+                      Text(
+                        "$xWin wins",
+                        style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: blo),
+                      )
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          setState(
-                            () {
-                              play(6);
-                              xIsWin();
-                              oIsWin();
-                              DrawResult();
-                            },
-                          );
-                        },
-                        child: Box(
-                          value: hisoka[6].value,
-                          color: hisoka[6].color,
-                          size: hisoka[6].size,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(
-                            () {
-                              play(7);
-                              xIsWin();
-                              oIsWin();
-                              DrawResult();
-                            },
-                          );
-                        },
-                        child: Box(
-                          value: hisoka[7].value,
-                          color: hisoka[7].color,
-                          size: hisoka[7].size,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(
-                            () {
-                              play(8);
-                              xIsWin();
-                              oIsWin();
-                              DrawResult();
-                            },
-                          );
-                        },
-                        child: Box(
-                          value: hisoka[8].value,
-                          color: hisoka[8].color,
-                          size: hisoka[8].size,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-            //====================================================================
-            //====================================================================
-            const SizedBox(
-              height: 8,
+          ),
+          //===========================================================
+          //===========================================================
+          const SizedBox(
+            height: 30,
+          ),
+          //²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²
+          Container(
+            width: 360,
+            height: 360,
+            decoration: const BoxDecoration(
+              color: Colors.white,
             ),
-            //========================================================
-            Container(
-                width: double.infinity,
-                height: 120,
-                decoration: const BoxDecoration(color: Colors.transparent),
-                child: Center(
-                  child: Container(
-                      width: 100,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        color: !xTurn ? blo : aqua,
-                        borderRadius: BorderRadius.circular(100),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        setState(
+                          () {
+                            play(0);
+                            xIsWin();
+                            oIsWin();
+                            DrawResult();
+                          },
+                        );
+                      },
+                      child: Box(
+                        value: hisoka[0].value,
+                        color: hisoka[0].color,
+                        size: hisoka[0].size,
                       ),
-                      child: Center(
-                        child: Container(
-                          width: 90,
-                          height: 90,
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                          child: Icon(
-                            xTurn ? Icons.close_rounded : Icons.circle_outlined,
-                            size: 75,
-                            color: xTurn ? blo : aqua,
-                          ),
-                        ),
-                      )),
-                )),
-            const SizedBox(
-              height: 8,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(
+                          () {
+                            play(1);
+                            xIsWin();
+                            oIsWin();
+                            DrawResult();
+                          },
+                        );
+                      },
+                      child: Box(
+                        value: hisoka[1].value,
+                        color: hisoka[1].color,
+                        size: hisoka[1].size,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(
+                          () {
+                            play(2);
+                            xIsWin();
+                            oIsWin();
+                            DrawResult();
+                          },
+                        );
+                      },
+                      child: Box(
+                        value: hisoka[2].value,
+                        color: hisoka[2].color,
+                        size: hisoka[2].size,
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        setState(
+                          () {
+                            play(3);
+                            xIsWin();
+                            oIsWin();
+                            DrawResult();
+                          },
+                        );
+                      },
+                      child: Box(
+                        value: hisoka[3].value,
+                        color: hisoka[3].color,
+                        size: hisoka[3].size,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(
+                          () {
+                            play(4);
+                            xIsWin();
+                            oIsWin();
+                            DrawResult();
+                          },
+                        );
+                      },
+                      child: Box(
+                        value: hisoka[4].value,
+                        color: hisoka[4].color,
+                        size: hisoka[4].size,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(
+                          () {
+                            play(5);
+                            xIsWin();
+                            oIsWin();
+                            DrawResult();
+                          },
+                        );
+                      },
+                      child: Box(
+                        value: hisoka[5].value,
+                        color: hisoka[5].color,
+                        size: hisoka[5].size,
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        setState(
+                          () {
+                            play(6);
+                            xIsWin();
+                            oIsWin();
+                            DrawResult();
+                          },
+                        );
+                      },
+                      child: Box(
+                        value: hisoka[6].value,
+                        color: hisoka[6].color,
+                        size: hisoka[6].size,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(
+                          () {
+                            play(7);
+                            xIsWin();
+                            oIsWin();
+                            DrawResult();
+                          },
+                        );
+                      },
+                      child: Box(
+                        value: hisoka[7].value,
+                        color: hisoka[7].color,
+                        size: hisoka[7].size,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(
+                          () {
+                            play(8);
+                            xIsWin();
+                            oIsWin();
+                            DrawResult();
+                          },
+                        );
+                      },
+                      child: Box(
+                        value: hisoka[8].value,
+                        color: hisoka[8].color,
+                        size: hisoka[8].size,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            //==============================================
-            Container(
+          ),
+          //====================================================================
+          //====================================================================
+          const SizedBox(
+            height: 8,
+          ),
+          //========================================================
+          Container(
               width: double.infinity,
               height: 120,
               decoration: const BoxDecoration(color: Colors.transparent),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        print("duuuuuude");
-                        reset();
-                      });
-                    },
-                    child: Container(
-                      width: 80,
-                      height: 80,
-                      decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(100)),
-                      child: const Icon(
-                        Icons.refresh_rounded,
-                        color: Colors.white,
-                        size: 60,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: 130,
-                    height: 50,
+              child: Center(
+                child: Container(
+                    width: 100,
+                    height: 100,
                     decoration: BoxDecoration(
-                      color: Colors.black,
+                      color: !xTurn ? blo : aqua,
                       borderRadius: BorderRadius.circular(100),
                     ),
                     child: Center(
-                        child: Text(
-                      xTurn ? "X: PLAYER" : "O: PLAYER",
-                      style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
+                      child: Container(
+                        width: 90,
+                        height: 90,
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                        child: Icon(
+                          xTurn ? Icons.close_rounded : Icons.circle_outlined,
+                          size: 75,
+                          color: xTurn ? blo : aqua,
+                        ),
+                      ),
                     )),
-                  ),
-                  Container(
+              )),
+          const SizedBox(
+            height: 8,
+          ),
+          //==============================================
+          Container(
+            width: double.infinity,
+            height: 120,
+            decoration: const BoxDecoration(color: Colors.transparent),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      reset();
+                    });
+                  },
+                  child: Container(
                     width: 80,
                     height: 80,
                     decoration: BoxDecoration(
                         color: Colors.black,
                         borderRadius: BorderRadius.circular(100)),
-                    child: Icon(
-                      Icons.settings_outlined,
+                    child: const Icon(
+                      Icons.refresh_rounded,
                       color: Colors.white,
-                      size: 50,
+                      size: 60,
                     ),
                   ),
-                ],
-              ),
+                ),
+                Container(
+                  width: 130,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  child: Center(
+                      child: Text(
+                    xTurn ? "X: PLAYER" : "O: PLAYER",
+                    style: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  )),
+                ),
+                Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(100)),
+                  child: const Icon(
+                    Icons.settings_outlined,
+                    color: Colors.white,
+                    size: 50,
+                  ),
+                ),
+              ],
             ),
-            SizedBox(
-              height: 8,
-            ),
-          ],
-        ),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+        ],
       ),
     );
   }
